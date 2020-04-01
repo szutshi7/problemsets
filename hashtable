@@ -1,0 +1,122 @@
+class Node{
+public:
+    int val;
+    int key;
+    Node* next;
+    Node(int i_key, int i_val){
+        key = i_key;
+        val = i_val;
+        next = NULL;
+    }
+};
+
+class MyHashMap {
+public:
+    
+    int arraysize = 1000;
+    Node* hashmap[1000];
+    /** Initialize your data structure here. */
+    MyHashMap() {
+        for(int i = 0; i < arraysize; i++)
+        {
+           hashmap[i] = NULL;
+        }
+    }
+    
+    /** value will always be non-negative. */
+    void put(int key, int value) {
+        int hashKey = key%arraysize;
+        Node* atThisKey = hashmap[hashKey];
+        Node* curr = atThisKey;
+        Node* prev = NULL;
+        bool nodeFound = false;
+        if(curr != NULL)
+        {
+            while(curr != NULL)
+            {
+                if(curr->key == key)
+                {
+                    curr->val = value;
+                    nodeFound = true;
+                    break;
+                }
+                prev = curr;
+                curr = curr->next;
+            }
+            if(!nodeFound)
+                curr = new Node(key, value);
+            if(prev != NULL && !nodeFound)
+                prev->next = curr;
+        }
+        else
+            hashmap[hashKey] = new Node(key, value); 
+        
+    }
+    
+    /** Returns the value to which the specified key is mapped, or -1 if this map contains no mapping for the key */
+    int get(int key) {
+        Node* atThisKey = hashmap[key%arraysize];
+        if(atThisKey != NULL)
+        {
+            while(atThisKey != NULL)
+            {
+                if(atThisKey->key == key)
+                    return atThisKey->val;
+                else
+                    atThisKey = atThisKey->next;
+            }
+            return -1;
+            
+        }
+            
+        else
+            return -1;
+    }
+    
+    /** Removes the mapping of the specified value key if this map contains a mapping for the key */
+    void remove(int key) {
+        Node* atThisKey = hashmap[key%arraysize];
+        Node* prev;
+        if(atThisKey != NULL)
+        {
+            prev = NULL;
+            while(atThisKey != NULL)
+            {
+                if(atThisKey->key == key)
+                {
+                    if(prev != NULL)
+                    {
+                        prev->next = atThisKey->next;
+                        
+                    }
+                    else if(atThisKey->next != NULL && prev == NULL)
+                    {
+                        hashmap[key%arraysize] = atThisKey->next;
+                    }
+                    else if(prev == NULL && atThisKey->next == NULL)
+                    {
+                        hashmap[key%arraysize] = NULL;
+                    }
+                    delete atThisKey;
+                    break;
+                }
+                else
+                {
+                    prev = atThisKey;
+                    atThisKey = atThisKey->next;
+                }
+            }
+            
+        }
+    }
+};
+
+
+
+/**
+ * Your MyHashMap object will be instantiated and called as such:
+ * MyHashMap* obj = new MyHashMap();
+ * obj->put(key,value);
+ * int param_2 = obj->get(key);
+ * obj->remove(key);
+ */
