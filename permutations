@@ -1,0 +1,26 @@
+class Solution {
+public:
+    vector<vector<int> >  result, int_results;
+    vector<vector<int>> permute(vector<int>& nums) {    
+        backtrack(0, nums);
+        return result;
+    }
+    void backtrack(int first, vector<int> tempNums)
+    {
+        if(first != tempNums.size()-1)
+        {    
+            
+              for(int k=first; k<tempNums.size(); k++)
+              {
+                  vector<int> temp(tempNums);
+                    if(k != first)
+                    {
+                       iter_swap(temp.begin()+first, temp.begin()+k);
+                   }
+                    backtrack(first+1, temp);
+         }
+          }
+        else
+            result.push_back(tempNums);
+    }
+};
