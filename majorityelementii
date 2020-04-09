@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> majorityElement(vector<int>& nums) {
+        int thresh = nums.size()/3;
+        vector<int> vec(nums);
+        map<int, int> vals;
+        nums.clear();
+        for(int i = 0; i < vec.size(); i++)
+        {
+            vals[vec[i]]++;
+
+            if(vals[vec[i]] > thresh && vals[vec[i]] <= thresh+1)
+            {
+                nums.push_back(vec[i]);
+            }    
+        }
+        return nums;
+    }
+};
