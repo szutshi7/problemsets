@@ -1,0 +1,35 @@
+class Solution {
+public:
+    bool rotateString(string A, string B) {
+        if(A.length() != B.length())
+            return false;
+        int startIdx = 0;
+        for(int i = 0;  i < A.length(); i++)
+        {
+            if(A[i] == B[0])
+            {
+                int iPlusOne = i+1;
+                if(i+1 == A.length())
+                    iPlusOne = 0;
+                int iMOne = i-1;
+                if(i-1 < 0)
+                    iMOne = A.length()-1;
+                if(A[iPlusOne] == B[1] && A[iMOne] == B[B.length()-1])
+                  {
+                    startIdx = i;
+                    break;
+                  }
+            }
+        }
+        int ctr = startIdx;
+        for(int i = 0; i < B.length(); i++)
+        {
+            if(ctr >= A.length())
+                ctr = 0;
+            if(A[ctr] != B[i])
+                return false;
+            ctr++;
+        }
+        return true;
+    }
+};
